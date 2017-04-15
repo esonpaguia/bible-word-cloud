@@ -16,34 +16,34 @@ bibleCorpus <- Corpus(VectorSource(bibleData))
 
 # Remove special characters
 toSpace <- content_transformer(function (x , pattern ) gsub(pattern, " ", x))
-bibleCorpus <- tm_map(bibleCorpus, toSpace, "/")
-bibleCorpus <- tm_map(bibleCorpus, toSpace, "@")
-bibleCorpus <- tm_map(bibleCorpus, toSpace, "\\|")
+bibleCorpus1 <- tm_map(bibleCorpus, toSpace, "/")
+bibleCorpus2 <- tm_map(bibleCorpus1, toSpace, "@")
+bibleCorpus3 <- tm_map(bibleCorpus2, toSpace, "\\|")
 
 # Convert the text to lower case
-bibleCorpus <- tm_map(bibleCorpus, content_transformer(tolower))
+bibleCorpus4 <- tm_map(bibleCorpus3, content_transformer(tolower))
 
 # Remove numbers
-bibleCorpus <- tm_map(bibleCorpus, removeNumbers)
+bibleCorpus5 <- tm_map(bibleCorpus4, removeNumbers)
 
 # Remove english common stopwords
-bibleCorpus <- tm_map(bibleCorpus, removeWords, stopwords("english"))
+bibleCorpus6 <- tm_map(bibleCorpus5, removeWords, stopwords("english"))
 
 # Remove your own stop word
 # specify your stopwords as a character vector
-# bibleCorpus <- tm_map(bibleCorpus, removeWords, c("said", "will")) 
+bibleCorpus7 <- tm_map(bibleCorpus6, removeWords, c("said", "will")) 
 
 # Remove punctuations
-bibleCorpus <- tm_map(bibleCorpus, removePunctuation)
+bibleCorpus8 <- tm_map(bibleCorpus7, removePunctuation)
 
 # Eliminate extra white spaces
-bibleCorpus <- tm_map(bibleCorpus, stripWhitespace)
+bibleCorpus9 <- tm_map(bibleCorpus8, stripWhitespace)
 
 # Text stemming
-bibleCorpus <- tm_map(bibleCorpus, stemDocument)
+bibleCorpus10 <- tm_map(bibleCorpus9, stemDocument)
 
 # Generate matrix
-dtm <- TermDocumentMatrix(bibleCorpus)
+dtm <- TermDocumentMatrix(bibleCorpus10)
 m <- as.matrix(dtm)
 v <- sort(rowSums(m),decreasing=TRUE)
 d <- data.frame(word = names(v),freq=v)
